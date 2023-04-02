@@ -1,12 +1,16 @@
-(ns browser.main)
+(ns browser.main
+  (:require 
+    ["react-dom/client" :as rdc :refer [hydrateRoot]]
+    ["react" :as react]
+    [ui.html :as ui-html]
+    [ui.hiccup-to-react :refer [create-elements]]))
 
-; The output will be loadable through the `<script>` tag in any
-; webpage, making it ideal for client-side code (e.g. React).
-;
-; More details at https://shadow-cljs.github.io/docs/UsersGuide.html#target-browser
-
-(println "Hello, world! - this is from the module static code - Open your Console in DevTools")
+(defn render-ui []
+  (hydrateRoot  (-> js/window .-document .-body) (create-elements (nth ui-html/index 3)))) 
 
 (defn init []
-  (println "This is from the init function")
-  (.appendChild (.-body js/document) (.createTextNode js/document "It works!")))
+  (let [doc (-> js/window .-document)
+        readyState (.-readyState doc)]))
+    ; (if (= readyState "loading")
+    ;   (.addEventListener js/window "DOMContentLoaded", #(render-ui))
+    ;   (render-ui))))

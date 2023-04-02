@@ -3,3 +3,7 @@ node_modules/
 target/
 .shadow-cljs/
 .nrepl-port
+tmp
+.nrepl.edn
+.lsp/
+.clj-kondo/
