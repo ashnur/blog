@@ -1,0 +1,9 @@
+[:html
+  [:head 
+   [:meta {:char-set "utf-8"}] 
+   [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}] 
+   [:title "threshold occurrence"] 
+   [:script {:src "browser-main.js" :async ""}]] 
+  [:body 
+   [:div "helo word"]]]
+

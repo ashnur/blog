@@ -1,23 +1,15 @@
 (ns server.main
   (:require
-   [ui.hiccup :refer [hcc-server]]
-   [ui.html :as ui-html]
+   [ui.hiccup :refer [hcc]]
    ["express" :as express]
    ["serve-static" :as serve-static]
    ["node:http" :as http]
-    ; ["node:fs/readFileSync" :as slurp] 
-    ; ["node:process/stdout" :as stdout] 
-    ; ["node:stream/pipeline" :as pipeline]
    ["react" :as react :refer [createElement]]
    ["react-dom/server" :as rdc :refer [renderToPipeableStream]]))
-
 
 (defonce server (atom nil))
 
 (def serve (serve-static "build", #js {:index false}))
-
-(defn reload! []
-  (println "Code updated."))
 
 (defn request-handler [^js req ^js res next]
   (let [did-error (atom false)
@@ -28,7 +20,7 @@
      (reset!
       stream
       (renderToPipeableStream
-       (clj->js (hcc-server ui.html/index))
+       (hcc [:index])
        #js {:onError (fn [e]
                        (reset! did-error true)
                        (js/console.error "Error rendering" e))
@@ -69,3 +61,5 @@
 
 
 
+(defn reload! []
+  (println "Code updated."))

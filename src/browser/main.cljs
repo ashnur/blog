@@ -2,17 +2,14 @@
   (:require
    ["react-dom/client" :as rdc :refer [hydrateRoot]]
    ["react" :as react :refer  [createElement]]
-   [ui.html :as ui-html]
-   [ui.hiccup :refer [hcc-client]]))
+   [ui.hiccup :refer [hcc]]))
 
 
 (defn render-ui []
-  (let [html #(nth ui.html/index 2)]
-    (hydrateRoot  
-      (-> js/window .-document .-body) 
-      (clj->js (hcc-client (html))))))
+  (hydrateRoot  
+    (-> js/window .-document .-body) 
+    (hcc [:index] [2])))
 
-(js/console.log "asd")
 
 (defn init []
   (let [doc (-> js/window .-document)
