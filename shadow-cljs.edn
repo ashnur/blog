@@ -1,7 +1,9 @@
 {:source-paths ["src"]
  :dependencies [[iced-nrepl "1.2.1"]
                 [refactor-nrepl "3.6.0"]
-                [cider/cider-nrepl "0.30.0"]]
+                [cider/cider-nrepl "0.30.0"]
+                [hicada "0.1.9"]]
+                 
 
  :builds
  {:app-test {:target :node-test
@@ -10,7 +12,8 @@
              :autorun true}
   :server {:target :node-script
            :output-to "build/server.js"
-           :main server.main/start}
+           :main server.main/start
+           :compiler-options {:reader-features #{:cljs/ssr}}}
   :client {:target :browser
            :output-dir "build"
            :asset-path "."
