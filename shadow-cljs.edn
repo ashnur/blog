@@ -4,19 +4,29 @@
                 [cider/cider-nrepl "0.30.0"]
                 [hicada "0.1.9"]
                 [local-file "0.1.0"]
-                [borkdude/edamame "1.3.20"]]
+                [borkdude/edamame "1.3.20"]
+                [funcool/promesa "11.0.671"]]
+
 
  :builds
- {:app-test {:target :node-test
+ {:app-test {:target    :node-test
              :output-to "build/node-tests.js"
              :ns-regexp "-test$"
-             :autorun true}
-  :server {:target :node-script
-           :output-to "build/server.js"
-           :main server.main/start}
-  :client {:target :browser
-           :output-dir "build"
-           :asset-path "."
-           :modules {:browser-main {:entries [browser.main]
-                                    :init-fn browser.main/init}}}}}
+             :autorun   true}
+  :server   {:target    :node-script
+             :output-to "build/server.js"
+             :main      server.main/start
+             :release   {:output-to "release/server/server.js"}}
+
+
+  :client   {:target     :browser
+             :output-dir "build"
+             :asset-path "."
+             :modules    {:browser-main {:entries [browser.main]
+                                         :init-fn browser.main/init}}
+             :release    {:output-dir "release/client/"}
+             :devtools   {:after-load browser.main/hot-reload-ui}}}}
+
+
+
 

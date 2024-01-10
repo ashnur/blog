@@ -1,11 +1,38 @@
 (ns server.main
   (:require
-   [ui.hiccup :refer [hcc]]
+   [ui.hiccup :refer [hcc ]]
+   [promesa.core :as p]
    ["express" :as express]
    ["serve-static" :as serve-static]
    ["node:http" :as http]
    ["react" :as react :refer [createElement]]
-   ["react-dom/server" :as rdc :refer [renderToPipeableStream]]))
+   ["react-dom/server" :as rdc :refer [renderToPipeableStream renderToStaticMarkup]]
+   ["nsfw" :as nsfw]))
+
+;(defonce logdir "/home/ashnur/repos/games/hearthstone-linux/hearthstone/Logs/")
+;(defn start-watcher [dir] (let [event-handler (fn [events]
+;                        ;; TODO: Handle events here
+;                        (println (js/Date) events))
+;        nsfw-options {:debounceMS 250
+;                      :errorCallback #(js/console.error %)}
+;        watcher-promise (-> (nsfw dir event-handler nsfw-options)
+;                            (p/promise))]
+;
+;    (-> watcher-promise
+;        (p/then (fn [watcher]
+;                  (println "Starting watcher")
+;                  (-> (.start watcher)
+;                      (p/promise))))
+;        (p/then (fn [_]
+;                  (println "Watcher started")))
+;        (p/catch #(js/console.error "Error starting watcher:" %)))))
+;
+;(defn stop-watcher [watcher]
+;  (-> (.stop watcher)
+;      (p/promise)
+;      (p/then (fn [_]
+;                (println "Watcher stopped")))
+;      (p/catch #(js/console.error "Error stopping watcher:" %))))
 
 (defonce server (atom nil))
 
@@ -14,7 +41,6 @@
 (defn request-handler [^js req ^js res next]
   (let [did-error (atom false)
         stream (atom nil)]
-
     (if (not (= (.-url req) "/"))
      (serve req res next)
      (reset!
@@ -42,24 +68,25 @@
   ^:dev/after-load
   (let [app (express)]
     (.use app request-handler)
+    ;(start-watcher logdir)
     (reset! server (http/createServer app))
     (.listen ^js/Node.http.Server @server 8000 (fn [] (println "Server running on port 8000")))
     bs))
 
-; (defn stop-server []
-;   ^:dev/before-load
-;   (when @server (.close @server)))
-; (defn -dev [& args]
-;   (js/console.log "starting development server")
-;   (try
-;     (renderToPipeableStream (hiccup/html (slurp "../ui/html.edn"))
-;       (.pipe stdout))
-;     (catch js/Object e 
-;       (->> e
-;         (.stringify js/JSON)
-;         (.log js/console)))))
 
+(defn stop-server []
+  (when @server
+    (js/console.log "Shutting down gracefully...")
+    (.close ^js/Node.http.Server @server
+            (fn []
+              (js/console.log "Server closed")
+              (reset! server nil)))
+    (js/process.exit 0)))
+
+(js/process.on "SIGINT" stop-server)
+(js/process.on "SIGTERM" stop-server)
 
 
 (defn reload! []
   (println "Code updated."))
+

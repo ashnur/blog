@@ -7,17 +7,24 @@
   "scripts": {
     "release:server": "shadow-cljs release server",
     "release:client": "shadow-cljs release client",
-    "dev": "nodemon build/server.js"
+    "release": "npm-run-all release:* ",
+    "publish:local": "deploy/publish.sh boilerplate ./release blog",
+    "dev-:local": "nodemon build/server.js",
+    "dev-:client": "shadow-cljs watch client",
+    "dev-:server": "shadow-cljs watch server",
+    "dev": "npm-run-all dev-:*",
+    "start": "pm2 start release/server/server.js",
+    "stop": "pm2 stop release/server/server.js"
   },
   "devDependencies": {
-    "concurrently": "^8.0.1",
-    "express": "latest",
     "npm-run-all": "latest",
     "serve-static": "^1.15.0",
     "shadow-cljs": "latest",
     "source-map-support": "latest"
   },
   "dependencies": {
+    "express": "latest",
+    "nsfw": "^2.2.4",
     "react": "latest",
     "react-dom": "latest"
   }
