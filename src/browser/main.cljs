@@ -15,9 +15,6 @@
 
 (defn hot-reload-ui []
   (.render @root (hcc [:index] :index [2 1 2])))
-;;(js/console.log ['hmrr (goog/typeOf @root)])
-  ;;(@root.render (hcc [:index] :index [2 1 2])))
-
 
 (defn init []
   (let [doc (-> js/window .-document)

@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "express": "latest",
-    "nsfw": "^2.2.4",
+    "nsfw": "^2.2.5",
     "react": "latest",
     "react-dom": "latest"
   }

@@ -7,3 +7,8 @@ tmp
 .nrepl.edn
 .lsp/
 .clj-kondo/
+.idea/
+assets/
+release/
+.calva/
+.cpcache/

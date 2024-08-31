@@ -1,6 +1,6 @@
 (ns server.main
   (:require
-   [ui.hiccup :refer [hcc ]]
+   [ui.hiccup :refer [hcc]]
    [promesa.core :as p]
    ["express" :as express]
    ["serve-static" :as serve-static]
@@ -8,31 +8,6 @@
    ["react" :as react :refer [createElement]]
    ["react-dom/server" :as rdc :refer [renderToPipeableStream renderToStaticMarkup]]
    ["nsfw" :as nsfw]))
-
-;(defonce logdir "/home/ashnur/repos/games/hearthstone-linux/hearthstone/Logs/")
-;(defn start-watcher [dir] (let [event-handler (fn [events]
-;                        ;; TODO: Handle events here
-;                        (println (js/Date) events))
-;        nsfw-options {:debounceMS 250
-;                      :errorCallback #(js/console.error %)}
-;        watcher-promise (-> (nsfw dir event-handler nsfw-options)
-;                            (p/promise))]
-;
-;    (-> watcher-promise
-;        (p/then (fn [watcher]
-;                  (println "Starting watcher")
-;                  (-> (.start watcher)
-;                      (p/promise))))
-;        (p/then (fn [_]
-;                  (println "Watcher started")))
-;        (p/catch #(js/console.error "Error starting watcher:" %)))))
-;
-;(defn stop-watcher [watcher]
-;  (-> (.stop watcher)
-;      (p/promise)
-;      (p/then (fn [_]
-;                (println "Watcher stopped")))
-;      (p/catch #(js/console.error "Error stopping watcher:" %))))
 
 (defonce server (atom nil))
 
@@ -56,7 +31,7 @@
             :onShellError
             (fn [err]
               (set! (.-statusCode res) 500)
-              (.send res (str "ERROR:" err)))
+              (.send res (str "ERROR:" err)))`
             :onShellReady
             (fn []
               (set! (.-statusCode res) (if @did-error 500 200))
