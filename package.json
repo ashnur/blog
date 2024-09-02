@@ -9,12 +9,12 @@
     "release:client": "shadow-cljs release client",
     "release": "npm-run-all release:* ",
     "publish:local": "deploy/publish.sh boilerplate ./release blog",
-    "dev-:local": "nodemon build/server.js",
+    "dev-:local": "pm2 start build/server.js --name=local-dev ",
     "dev-:client": "shadow-cljs watch client",
     "dev-:server": "shadow-cljs watch server",
     "dev": "npm-run-all dev-:*",
-    "start": "pm2 start release/server/server.js",
-    "stop": "pm2 stop release/server/server.js"
+    "start": "pm2 start release/server/server.js --name=server",
+    "stop": "pm2 stop server"
   },
   "devDependencies": {
     "npm-run-all": "latest",

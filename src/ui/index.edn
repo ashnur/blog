@@ -5,5 +5,7 @@
    [:title "threshold occurrence"] 
    [:script {:src "browser-main.js" :async ""}]] 
   [:body 
-   [:div {:id "app"} [:div "hello world"]]]]
+   [:div 
+     {:id "app"} 
+     [:div "hello wo"]]]]
 

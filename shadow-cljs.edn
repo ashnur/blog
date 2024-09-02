@@ -5,15 +5,19 @@
                 [hicada "0.1.9"]
                 [local-file "0.1.0"]
                 [borkdude/edamame "1.3.20"]
-                [funcool/promesa "11.0.671"]]
+                [funcool/promesa "11.0.671"]
+                [com.wsscode/pathom3 "2023.08.22-alpha"]]
 
 
+
+ :cache-blockers #{clara.rules ui.hiccup}
  :builds
  {:app-test {:target    :node-test
              :output-to "build/node-tests.js"
              :ns-regexp "-test$"
              :autorun   true}
   :server   {:target    :node-script
+             :build-options {:cache-level :off}
              :output-to "build/server.js"
              :main      server.main/start
              :release   {:output-to "release/server/server.js"}}
